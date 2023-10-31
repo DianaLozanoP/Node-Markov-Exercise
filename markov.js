@@ -20,9 +20,6 @@ class MarkovMachine {
         let chain = {}
         for (let i = 0; i <= this.words.length; i++) {
             if (chain[this.words[i]]) {
-                if (this.words[i + 1] === undefined) {
-                    words[i + 1] = null;
-                }
                 chain[this.words[i]].push(this.words[i + 1]);
             }
             else {
@@ -30,6 +27,7 @@ class MarkovMachine {
             }
         }
         delete chain.undefined
+        // console.log(chain);
         return chain;
     }
 
@@ -40,14 +38,18 @@ class MarkovMachine {
         let text = [];
         let chain = this.makeChains();
         let keys = Object.keys(chain);
-        let randomNum = (Math.floor(Math.random() * keys.length))
+        let randomNum = (Math.floor(Math.random() * keys.length - 1))
         let firstWord = keys[randomNum];
         text.push(firstWord);
         for (let i = 0; i <= numWords; i++) {
             let word = text[i]
-            let choicesArray = chain[word]
-            let ranN = (Math.floor(Math.random() * choicesArray.length))
-            text.push(choicesArray[ranN]);
+            if (chain[word] === undefined) {
+                i = numWords + 1;
+            }
+            else {
+                let nextWord = chain[word].pop()
+                text.push(nextWord);
+            }
         }
         let finalText = String(text)
         let ft = finalText.replaceAll(',', ' ')
