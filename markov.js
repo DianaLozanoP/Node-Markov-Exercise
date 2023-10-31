@@ -44,8 +44,10 @@ class MarkovMachine {
         let firstWord = keys[randomNum];
         text.push(firstWord);
         for (let i = 0; i <= numWords; i++) {
-            let ranN = (Math.floor(Math.random() * chain[text[i]].length))
-            text.push(chain[text[i]][ranN]);
+            let word = text[i]
+            let choicesArray = chain[word]
+            let ranN = (Math.floor(Math.random() * choicesArray.length))
+            text.push(choicesArray[ranN]);
         }
         let finalText = String(text)
         let ft = finalText.replaceAll(',', ' ')
@@ -55,3 +57,5 @@ class MarkovMachine {
 
 let mm = new MarkovMachine('I like green eggs and ham! I do! I like them, Sam-I-am! And I would eat them in a boat! And I would eat them with a goat... And I will eat them in the rain. And in the dark. And on a train. And in a car. And in a tree. They are so goodm so goodm you see!')
 mm.makeText(numWords = 10);
+
+module.exports = { MarkovMachine }
